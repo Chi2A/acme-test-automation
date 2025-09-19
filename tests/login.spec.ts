@@ -8,5 +8,6 @@ test('Successfull login', async ({ page }) => {
     let loginPage = new LoginPage(page);
     await loginPage.login("Sarah", "sar12#rah")
      let homePage = new HomePage(page);
-await expect (page).toHaveUrl("https://demo.applitools.com/app.html")
+    await homePage.validateTitle("ACME")
+    
 })
