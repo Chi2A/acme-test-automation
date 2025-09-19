@@ -1,10 +1,23 @@
-import { test, expect } from '@playwright/test'
-test('Login Page Functionality', async ({ page }) => { 
-    await page.goto("https://demo.applitools.com");
-    await page.locator('input[id="username”]').fill('Sarah')
-    await page.locator('input[id="password”]').fill("sa12@rah");
-    await page.locator('a[id="log-in"]').click()
-    let expectedText = "Your nearest branch closes in: 30m 5s";
-    let homePageTitle = page.locator('h6[id="time"]');
-    expect(homePageTitle).toHaveText(expectedText);
-})
+
+import { Locator, Page ,expect} from '@playwright/test'
+export class LoginPage {
+  userName: Locator;
+  password: Locator;
+  loginButton: Locator;
+  homePageLogo: Locator;
+
+  constructor(page: Page) {
+    this.userName = page.locator('input[id="username”]');
+    this.password = page.locator('input[id="password”]');
+    this.loginButton = page.locator('a[id="log-in"]');
+    this.homePageLogo = page.locator('div[class="logo-label"]');
+  }
+  async login(userName: string, password: string): Promise<void> {
+    await this.userName.fill(userName);
+    await this.password.fill(password);
+    await this.loginButton.click();
+  }
+    validateTitle(homePageLogo: string): void { 
+        expect(this.homePageLogo).toHaveText(homePageLogo)
+    }
+}
